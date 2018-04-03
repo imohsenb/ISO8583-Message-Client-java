@@ -3,8 +3,7 @@
 #### ISO8583 Message Packer and Unpakcer with ISOClient for communication with iso server 
 ###### (Supporting both Blocking IO and NIO)
 ###### (Supporting SSL/TLS)
-.
-.
+
 ** source code will upload after some housekeeping **
 
 A lightweight ISO8583 (is an international standard for financial transaction card originated interchange messaging - [wikipedia][iso8583-Wiki] ) library for Java and Android base on builder pattern and provide very simple use as you will see later.
@@ -12,11 +11,11 @@ A lightweight ISO8583 (is an international standard for financial transaction ca
   - Supporting Blocking IO and Non-blocking IO (NIO)
   - Supporting SSL/TLS
   - Base on Builder pattern
-  - String not used for security reasons, but can be if necessary
+  - String not used for security reasons
   - Lightweight ISO-8583 lib for java and android
-  - working with sum enums, it's more readable
+  - working with some enums, it's more readable
   - no dependency
-  - It is on the way and becomes more complete and stronger day by day ðŸ˜Š
+  - It is on the way and becomes more complete and stronger day by day 😎
 
 
 ### Usage
@@ -109,7 +108,7 @@ ISOClient client = ISOClientBuilder.createSocket(HOST, PORT)
                 .build();
 ```
 
-ðŸ˜‚ðŸ˜‚ it's ready for use, with just set `.configureBlocking` to false.
+😁😁‚ it's ready for use, with just set `.configureBlocking` to false.
 it is posibble to use with `.enableSSL()` too.
 
 ### Todos
