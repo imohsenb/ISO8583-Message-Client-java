@@ -4,7 +4,6 @@
 ###### (Supporting both Blocking IO and NIO)
 ###### (Supporting SSL/TLS)
 
-** source code will upload after some housekeeping **
 
 A lightweight ISO8583 (is an international standard for financial transaction card originated interchange messaging - [wikipedia][iso8583-Wiki] ) library for Java and Android base on builder pattern and provide very simple use as you will see later.
 
@@ -111,12 +110,6 @@ ISOClient client = ISOClientBuilder.createSocket(HOST, PORT)
 😁😁‚ it's ready for use, with just set `.configureBlocking` to false.
 it is posibble to use with `.enableSSL()` too.
 
-### Todos
-
- - ⚪ MAC generator
- - ⚪ Sending Async message
- - ⚪ Event dispatcher
- - ⚪ store and forward
 
 License
 -------
