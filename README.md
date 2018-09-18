@@ -26,10 +26,10 @@ so you can add this dependency to your `pom.xml` like below:
 <dependency>
     <groupId>com.imohsenb</groupId>
     <artifactId>ISO8583</artifactId>
-    <version>1.0.0-SNAPSHOT</version>
+    <version>1.0.2</version>
 </dependency>
 ```
-
+or direct download from [HERE][ddwn]
 ## ISOMessage
 #### Create and pack an ISO message
 To create an ISO message you must use ISOMessageBuilder which produce iso message for you:
@@ -125,4 +125,5 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
    [mvn]: <https://search.maven.org/>
    [mit]: <https://opensource.org/licenses/MIT/>
    [nio]: <https://en.wikipedia.org/wiki/New_I/O_(Java)/>
+   [ddwn] : <https://oss.sonatype.org/content/groups/public/com/imohsenb/ISO8583/1.0.2/ISO8583-1.0.2.jar/>
 
