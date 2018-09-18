@@ -4,7 +4,7 @@
 
     <groupId>com.imohsenb</groupId>
     <artifactId>ISO8583</artifactId>
-    <version>1.0.0</version>
+    <version>1.0.1-SNAPSHOT</version>
 
     <developers>
         <developer>
@@ -27,7 +27,7 @@
         <connection>scm:git:git://github.com/imohsenb/ISO8583-Message-Client-java.git</connection>
         <developerConnection>scm:git:git@github.com:imohsenb/ISO8583-Message-Client-java.git</developerConnection>
         <url>https://github.com/imohsenb/ISO8583-Message-Client-java</url>
-        <tag>ISO8583-1.0.0</tag>
+        <tag>HEAD</tag>
     </scm>
 
     <distributionManagement>
