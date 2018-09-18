@@ -1,5 +1,4 @@
-# Created by .ignore support plugin (hsz.mobi)
 .*
 !.gitignore
 /target
-!/target/ISO8583-*.jar
+*.iml

@@ -4,7 +4,7 @@ import com.imohsenb.ISO8583.enums.MESSAGE_FUNCTION;
 import com.imohsenb.ISO8583.enums.MESSAGE_ORIGIN;
 
 /**
- * Created by Mohsen Beiranvand on 18/03/16.
+ * @author Mohsen Beiranvand
  */
 public interface MessagePacker<T> {
 

@@ -6,7 +6,7 @@
 
     <groupId>com.imohsenb</groupId>
     <artifactId>ISO8583</artifactId>
-    <version>1.0.1-beta</version>
+    <version>1.0.4-beta</version>
     <build>
         <plugins>
             <plugin>

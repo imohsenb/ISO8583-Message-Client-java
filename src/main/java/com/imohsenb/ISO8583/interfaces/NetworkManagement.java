@@ -2,7 +2,7 @@ package com.imohsenb.ISO8583.interfaces;
 
 
 /**
- * Created by Mohsen Beiranvand on 18/03/16.
+ * @author Mohsen Beiranvand
  */
 public interface NetworkManagement<T> {
 }

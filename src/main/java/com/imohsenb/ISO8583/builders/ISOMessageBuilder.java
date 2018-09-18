@@ -10,7 +10,7 @@ import com.imohsenb.ISO8583.interfaces.UnpackMethods;
 import com.imohsenb.ISO8583.utils.StringUtil;
 
 /**
- * Created by Mohsen Beiranvand on 18/03/31.
+ * @author Mohsen Beiranvand
  */
 public class ISOMessageBuilder {
 

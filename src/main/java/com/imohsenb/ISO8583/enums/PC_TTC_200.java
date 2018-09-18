@@ -1,7 +1,7 @@
 package com.imohsenb.ISO8583.enums;
 
 /**
- * Created by Mohsen Beiranvand on 18/03/14.
+ * @author Mohsen Beiranvand
  */
 public enum PC_TTC_200 {
 

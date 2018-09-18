@@ -12,7 +12,7 @@ import java.util.Set;
 import java.util.TreeMap;
 
 /**
- * Created by Mohsen Beiranvand on 18/04/02.
+ * @author Mohsen Beiranvand
  */
 public class ISOMessage {
 
@@ -125,10 +125,6 @@ public class ISOMessage {
             msgClass = Integer.parseInt(mti.substring(1,2));
             msgFunction = Integer.parseInt(mti.substring(2,3));
             msgOrigin = Integer.parseInt(mti.substring(3,4));
-
-//            System.out.println("msgClass = " + msgClass);
-//            System.out.println("msgFunction = " + msgFunction);
-//            System.out.println("msgOrigin = " + msgOrigin);
         }
     }
 

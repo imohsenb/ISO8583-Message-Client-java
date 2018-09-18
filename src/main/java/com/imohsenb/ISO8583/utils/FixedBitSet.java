@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.BitSet;
 
 /**
- * Created by Mohsen Beiranvand on 18/03/17.
+ * @author Mohsen Beiranvand
  */
 public class FixedBitSet extends BitSet {
 

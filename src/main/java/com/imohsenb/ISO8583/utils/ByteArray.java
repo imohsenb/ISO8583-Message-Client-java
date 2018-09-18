@@ -3,7 +3,7 @@ package com.imohsenb.ISO8583.utils;
 import java.util.Arrays;
 
 /**
- * Created by Mohsen Beiranvand on 18/04/01.
+ * @author Mohsen Beiranvand
  */
 public final class ByteArray {
 

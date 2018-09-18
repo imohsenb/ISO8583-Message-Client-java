@@ -5,20 +5,16 @@ import com.imohsenb.ISO8583.interfaces.SSLKeyManagers;
 import com.imohsenb.ISO8583.interfaces.SSLProtocol;
 import com.imohsenb.ISO8583.interfaces.SSLTrustManagers;
 
+import javax.net.ssl.*;
 import java.nio.ByteBuffer;
 import java.nio.channels.SocketChannel;
 import java.security.KeyManagementException;
 import java.security.NoSuchAlgorithmException;
 import java.security.SecureRandom;
 
-import javax.net.ssl.KeyManager;
-import javax.net.ssl.SSLContext;
-import javax.net.ssl.SSLEngine;
-import javax.net.ssl.SSLEngineResult;
-import javax.net.ssl.SSLException;
-import javax.net.ssl.TrustManager;
-import javax.net.ssl.X509TrustManager;
-
+/**
+ * @author Mohsen Beiranvand
+ */
 public class SSLHandler implements SSLProtocol,SSLKeyManagers,SSLTrustManagers
 {
 

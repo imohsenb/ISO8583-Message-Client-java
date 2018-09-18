@@ -2,12 +2,11 @@ package com.imohsenb.ISO8583.interfaces;
 
 import com.imohsenb.ISO8583.entities.ISOMessage;
 import com.imohsenb.ISO8583.exceptions.ISOClientException;
-import com.imohsenb.ISO8583.handlers.SSLHandler;
 
 import java.io.IOException;
 
 /**
- * Created by Mohsen Beiranvand on 18/03/31.
+ * @author Mohsen Beiranvand
  */
 public interface ISOClient {
 

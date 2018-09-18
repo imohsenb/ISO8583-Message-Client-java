@@ -1,7 +1,7 @@
 package com.imohsenb.ISO8583.exceptions;
 
 /**
- * Created by Mohsen Beiranvand on 18/03/17.
+ * @author Mohsen Beiranvand
  */
 public class ISOException extends Exception {
 

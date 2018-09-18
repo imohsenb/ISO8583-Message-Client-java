@@ -6,7 +6,7 @@ import com.imohsenb.ISO8583.exceptions.ISOException;
 import com.imohsenb.ISO8583.security.ISOMacGenerator;
 
 /**
- * Created by Mohsen Beiranvand on 18/03/14.
+ * @author Mohsen Beiranvand
  */
 public interface DataElement<T> {
 

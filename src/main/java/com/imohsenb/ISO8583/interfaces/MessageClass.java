@@ -3,7 +3,7 @@ package com.imohsenb.ISO8583.interfaces;
 import com.imohsenb.ISO8583.builders.GeneralMessageClassBuilder;
 
 /**
- * Created by Mohsen Beiranvand on 18/03/13.
+ * @author Mohsen Beiranvand
  */
 public interface MessageClass {
     /**

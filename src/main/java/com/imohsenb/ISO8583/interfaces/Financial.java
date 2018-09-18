@@ -3,7 +3,7 @@ package com.imohsenb.ISO8583.interfaces;
 import java.math.BigDecimal;
 
 /**
- * Created by Mohsen Beiranvand on 18/03/16.
+ * @author Mohsen Beiranvand
  */
 public interface Financial<T> {
 

@@ -1,7 +1,7 @@
 package com.imohsenb.ISO8583.interfaces;
 
 /**
- * Created by Mohsen Beiranvand on 18/04/01.
+ * @author Mohsen Beiranvand
  */
 public interface UnpackMessage {
 

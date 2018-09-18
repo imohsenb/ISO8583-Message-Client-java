@@ -5,7 +5,7 @@ import java.util.Arrays;
 import java.util.HashMap;
 
 /**
- * Created by Mohsen Beiranvand on 18/03/17.
+ * @author Mohsen Beiranvand
  */
 public final class TLVParser {
 

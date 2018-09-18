@@ -4,7 +4,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
- * Created by Mohsen Beiranvand on 18/03/16.
+ * @author Mohsen Beiranvand
  */
 public enum FIELDS {
 // |Field title                        |no  |type  |len  |fixed |format|

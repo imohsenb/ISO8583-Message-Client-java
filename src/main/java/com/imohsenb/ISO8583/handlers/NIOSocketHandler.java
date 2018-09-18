@@ -5,6 +5,10 @@ import com.imohsenb.ISO8583.interfaces.ISOClientEventListener;
 import com.imohsenb.ISO8583.interfaces.SocketHandler;
 import com.imohsenb.ISO8583.utils.StringUtil;
 
+import javax.net.ssl.SSLEngine;
+import javax.net.ssl.SSLEngineResult;
+import javax.net.ssl.SSLException;
+import javax.net.ssl.SSLSession;
 import java.io.IOException;
 import java.net.InetSocketAddress;
 import java.net.SocketException;
@@ -12,11 +16,9 @@ import java.nio.ByteBuffer;
 import java.nio.channels.SocketChannel;
 import java.util.Arrays;
 
-import javax.net.ssl.SSLEngine;
-import javax.net.ssl.SSLEngineResult;
-import javax.net.ssl.SSLException;
-import javax.net.ssl.SSLSession;
-
+/**
+ * @author Mohsen Beiranvand
+ */
 public class NIOSocketHandler implements SocketHandler {
 
     private SocketChannel socketChannel;
@@ -201,7 +203,6 @@ public class NIOSocketHandler implements SocketHandler {
                 }
             } else if (bytesRead < 0) {
                 engine.closeInbound();
-//                    handleEndOfStream(socketChannel, engine);
                 return response;
             }
             try {

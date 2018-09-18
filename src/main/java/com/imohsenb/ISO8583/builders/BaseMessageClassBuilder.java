@@ -1,12 +1,7 @@
 package com.imohsenb.ISO8583.builders;
 
 import com.imohsenb.ISO8583.entities.ISOMessage;
-import com.imohsenb.ISO8583.enums.FIELDS;
-import com.imohsenb.ISO8583.enums.MESSAGE_FUNCTION;
-import com.imohsenb.ISO8583.enums.MESSAGE_ORIGIN;
-import com.imohsenb.ISO8583.enums.PC_ATC;
-import com.imohsenb.ISO8583.enums.PC_TTC_100;
-import com.imohsenb.ISO8583.enums.PC_TTC_200;
+import com.imohsenb.ISO8583.enums.*;
 import com.imohsenb.ISO8583.exceptions.ISOException;
 import com.imohsenb.ISO8583.interfaces.DataElement;
 import com.imohsenb.ISO8583.interfaces.MessagePacker;
@@ -21,7 +16,7 @@ import java.util.Map;
 import java.util.TreeMap;
 
 /**
- * Created by Mohsen Beiranvand on 18/03/14.
+ * @author Mohsen Beiranvand
  */
 public abstract class BaseMessageClassBuilder<T> implements
         DataElement<T>, ProcessCode<T>, MessagePacker<T>

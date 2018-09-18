@@ -4,7 +4,7 @@ import java.nio.ByteBuffer;
 import java.util.Arrays;
 
 /**
- * Created by Mohsen Beiranvand on 18/03/17.
+ * @author Mohsen Beiranvand
  */
 public final class StringUtil {
 

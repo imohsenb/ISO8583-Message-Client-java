@@ -4,10 +4,11 @@ import com.imohsenb.ISO8583.exceptions.ISOClientException;
 import com.imohsenb.ISO8583.interfaces.ISOClientEventListener;
 import com.imohsenb.ISO8583.interfaces.SocketHandler;
 
+import javax.net.ssl.SSLContext;
+import javax.net.ssl.SSLSocket;
+import javax.net.ssl.SSLSocketFactory;
 import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;
-import java.io.DataInputStream;
-import java.io.DataOutputStream;
 import java.io.IOException;
 import java.net.Socket;
 import java.net.SocketException;
@@ -15,10 +16,9 @@ import java.net.SocketTimeoutException;
 import java.nio.ByteBuffer;
 import java.util.Arrays;
 
-import javax.net.ssl.SSLContext;
-import javax.net.ssl.SSLSocket;
-import javax.net.ssl.SSLSocketFactory;
-
+/**
+ * @author Mohsen Beiranvand
+ */
 public class IOSocketHandler implements SocketHandler {
     private Socket socket;
     private BufferedOutputStream socketWriter;
@@ -69,8 +69,6 @@ public class IOSocketHandler implements SocketHandler {
 
         for (byte v :
                 buffer.array()) {
-
-//            System.out.print(" " + v);
             socketWriter.write(v);
         }
 
@@ -97,7 +95,6 @@ public class IOSocketHandler implements SocketHandler {
             int fo = 512;
             do{
                 r = socketReader.read();
-//                System.out.print(" " +r + ":" + socketReader.available());
                 if (!(r == -1 && socketReader.available() == 0)) {
                     readBuffer.put((byte) r);
                 } else {
@@ -110,7 +107,6 @@ public class IOSocketHandler implements SocketHandler {
 
                     );
 
-//            System.out.println("\r\n");
 
             byte[] resp = Arrays.copyOfRange(readBuffer.array(),0,readBuffer.position());
 

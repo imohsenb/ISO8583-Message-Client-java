@@ -6,7 +6,7 @@ import com.imohsenb.ISO8583.enums.PC_TTC_200;
 import com.imohsenb.ISO8583.exceptions.ISOException;
 
 /**
- * Created by Mohsen Beiranvand on 18/03/14.
+ * @author Mohsen Beiranvand
  */
 public interface ProcessCode<T> {
     DataElement<T> processCode(String code) throws ISOException;
