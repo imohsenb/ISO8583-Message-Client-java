@@ -27,7 +27,7 @@ so you can add this dependency to your `pom.xml` like below:
 <dependency>
     <groupId>com.imohsenb</groupId>
     <artifactId>ISO8583</artifactId>
-    <version>1.0.0-beta</version>
+    <version>1.0.0-SNAPSHOT</version>
 </dependency>
 ```
 
