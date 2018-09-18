@@ -6,6 +6,10 @@
     <artifactId>ISO8583</artifactId>
     <version>1.0.1-SNAPSHOT</version>
 
+    <name>ISO-8583 Message Packer and Unpacker with ISOClient in Java</name>
+    <description>ISO8583 Message Packer and Unpakcer with ISOClient for communication with iso server</description>
+    <url>https://github.com/imohsenb/ISO8583-Message-Client-java</url>
+
     <developers>
         <developer>
             <name>Mohsen Beiranvand</name>
