@@ -14,7 +14,6 @@ A lightweight ISO8583 (is an international standard for financial transaction ca
   - Lightweight ISO-8583 lib for java and android
   - working with some enums, it's more readable
   - no dependency
-  - It is on the way and becomes more complete and stronger day by day 😎
 
 
 ### Usage
