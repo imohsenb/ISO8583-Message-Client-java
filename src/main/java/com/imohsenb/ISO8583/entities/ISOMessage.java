@@ -12,6 +12,8 @@ import java.util.Set;
 import java.util.TreeMap;
 
 /**
+ * ISO Message Entity
+ *
  * @author Mohsen Beiranvand
  */
 public class ISOMessage {
@@ -30,8 +32,7 @@ public class ISOMessage {
     private int msgOrigin;
     private int len = 0;
 
-    public static ISOMessage NullObject()
-    {
+    public static ISOMessage NullObject() {
         return new ISOMessage();
     }
 
@@ -47,44 +48,109 @@ public class ISOMessage {
         return body;
     }
 
+    /**
+     * Get primary bitmap
+     *
+     * @return returns primary byte array
+     * @since 1.0.4-SNAPSHOT
+     */
+    public byte[] getPrimaryBitmap() {
+        return primaryBitmap;
+    }
+
+    /**
+     * Message length
+     *
+     * @return returns message length
+     */
     public int length() {
         return len;
     }
 
+    /**
+     * Get field value in byte array format
+     *
+     * @param fieldNo field number
+     * @return returns field value in byte array format
+     * @throws ISOException throws exception
+     */
     public byte[] getField(int fieldNo) throws ISOException {
-        if(!dataElements.containsKey(fieldNo))
-            throw new ISOException("Field No "+fieldNo+" does not exists");
+        if (!dataElements.containsKey(fieldNo))
+            throw new ISOException("Field No " + fieldNo + " does not exists");
         return dataElements.get(fieldNo);
     }
 
-    
+    /**
+     * Get field value in byte array format
+     *
+     * @param field field in {@link FIELDS} format
+     * @return returns field value in byte array format
+     */
     public byte[] getField(FIELDS field) {
         return dataElements.get(field.getNo());
     }
 
+    /**
+     * Get field value in string format
+     *
+     * @param fieldNo field number
+     * @return returns field value in String format
+     * @throws ISOException throws exception
+     */
     public String getStringField(int fieldNo) throws ISOException {
         return getStringField(FIELDS.valueOf(fieldNo));
 
     }
 
+    /**
+     * Get field value in string format
+     *
+     * @param field field in {@link FIELDS} format
+     * @return returns field value in String format
+     * @throws ISOException throws exception
+     */
     public String getStringField(FIELDS field) throws ISOException {
 
-        return getStringField(field,false);
+        return getStringField(field, false);
     }
 
+    /**
+     * Get field value in string format
+     *
+     * @param fieldNo  field number
+     * @param asciiFix set true if you want result in ASCII format
+     * @return returns field value in String format
+     * @throws ISOException throws exception
+     */
     public String getStringField(int fieldNo, boolean asciiFix) throws ISOException {
-        return getStringField(FIELDS.valueOf(fieldNo),asciiFix);
+        return getStringField(FIELDS.valueOf(fieldNo), asciiFix);
 
     }
 
+    /**
+     * Get field value in string format
+     *
+     * @param field    field in {@link FIELDS} format
+     * @param asciiFix set true if you want result in ASCII format
+     * @return returns field value in String format
+     * @throws ISOException throws exception
+     */
     public String getStringField(FIELDS field, boolean asciiFix) throws ISOException {
 
         String temp = StringUtil.fromByteArray(getField(field.getNo()));
-        if(asciiFix && !field.getType().equals("n"))
+        if (asciiFix && !field.getType().equals("n"))
             return StringUtil.hexToAscii(temp);
         return temp;
     }
 
+    /**
+     * Set and parse ISO8583 message from buffer
+     *
+     * @param message         ISO8583 in byte array format
+     * @param headerAvailable set true if header is available in buffer
+     * @return returns ISO8583 message in ISOMessage type
+     * @throws ISOException throws exception
+     */
     public ISOMessage setMessage(byte[] message, boolean headerAvailable) throws ISOException {
 
         isNil = false;
@@ -94,7 +160,7 @@ public class ISOMessage {
 
         int headerOffset = 0;
 
-        if(headerAvailable) {
+        if (headerAvailable) {
             headerOffset = 5;
         }
 
@@ -107,54 +173,57 @@ public class ISOMessage {
             parseHeader();
             parseBody();
 
-        }catch (Exception e) {
-            throw new ISOException(e.getMessage(),e.getCause());
+        } catch (Exception e) {
+            throw new ISOException(e.getMessage(), e.getCause());
         }
 
         return this;
     }
 
-
+    /**
+     * Set and parse ISO8583 message from buffer
+     *
+     * @param message ISO8583 in byte array format
+     * @return returns ISO8583 message in ISOMessage type
+     * @throws ISOException throws exception
+     */
     public ISOMessage setMessage(byte[] message) throws ISOException {
-        return this.setMessage(message,true);
+        return this.setMessage(message, true);
     }
 
     private void parseHeader() {
-        if(body.length > 2) {
-            mti = StringUtil.fromByteArray(Arrays.copyOfRange(body,0,2));
-            msgClass = Integer.parseInt(mti.substring(1,2));
-            msgFunction = Integer.parseInt(mti.substring(2,3));
-            msgOrigin = Integer.parseInt(mti.substring(3,4));
+        if (body.length > 2) {
+            mti = StringUtil.fromByteArray(Arrays.copyOfRange(body, 0, 2));
+            msgClass = Integer.parseInt(mti.substring(1, 2));
+            msgFunction = Integer.parseInt(mti.substring(2, 3));
+            msgOrigin = Integer.parseInt(mti.substring(3, 4));
         }
     }
 
-    private void parseBody()
-    {
+    private void parseBody() {
         FixedBitSet pb = new FixedBitSet(64);
         pb.fromHexString(StringUtil.fromByteArray(primaryBitmap));
         int offset = 10;
 
         for (int o : pb.getIndexes()) {
 
-            FIELDS field =  FIELDS.valueOf(o);
+            FIELDS field = FIELDS.valueOf(o);
 
-            if(field.isFixed())
-            {
+            if (field.isFixed()) {
                 int len = field.getLength();
-                switch (field.getType())
-                {
+                switch (field.getType()) {
                     case "n":
-                        if(len % 2 !=0)
+                        if (len % 2 != 0)
                             len++;
-                        len = len/2;
-                        addElement(field,Arrays.copyOfRange(body,offset,offset + len));
+                        len = len / 2;
+                        addElement(field, Arrays.copyOfRange(body, offset, offset + len));
                         break;
                     default:
-                        addElement(field,Arrays.copyOfRange(body,offset,offset + len));
+                        addElement(field, Arrays.copyOfRange(body, offset, offset + len));
                         break;
                 }
                 offset += len;
-            }else{
+            } else {
 
                 int formatLength = 1;
                 switch (field.getFormat()) {
@@ -167,17 +236,16 @@ public class ISOMessage {
                 }
 
                 int flen = Integer.valueOf(
-                        StringUtil.fromByteArray(Arrays.copyOfRange(body,offset,offset + formatLength)));
+                        StringUtil.fromByteArray(Arrays.copyOfRange(body, offset, offset + formatLength)));
 
-                switch (field.getType())
-                {
+                switch (field.getType()) {
                     case "z":
-                        flen /=2;
+                        flen /= 2;
                 }
 
                 offset = offset + formatLength;
 
-                addElement(field,Arrays.copyOfRange(body,offset,offset + flen));
+                addElement(field, Arrays.copyOfRange(body, offset, offset + flen));
 
                 offset += flen;
             }
@@ -190,64 +258,109 @@ public class ISOMessage {
     }
 
 
-    public Set<Map.Entry<Integer, byte[]>> getEntrySet()
-    {
+    /**
+     * Get EntrySet
+     *
+     * @return returns data elements entry set
+     */
+    public Set<Map.Entry<Integer, byte[]>> getEntrySet() {
         return dataElements.entrySet();
     }
 
-
-
+    /**
+     * Check Field exists by {@link FIELDS} enum
+     *
+     * @param field field enum
+     * @return Returns true if field has value in message
+     */
     public boolean fieldExits(FIELDS field) {
         return fieldExits(field.getNo());
     }
 
+    /**
+     * Check Field exists field number
+     *
+     * @param no field number
+     * @return Returns true if field has value in message
+     */
     public boolean fieldExits(int no) {
         return dataElements.containsKey(no);
     }
 
+    /**
+     * Get Message MTI
+     * @return returns MTI in String format
+     */
     public String getMti() {
         return mti;
     }
 
+    /**
+     * Get message class
+     * @return returns message class
+     */
     public int getMsgClass() {
         return msgClass;
     }
 
+    /**
+     * Get message function
+     * @return returns message function
+     */
     public int getMsgFunction() {
         return msgFunction;
     }
 
+    /**
+     * Get message origin
+     * @return returns message origin
+     */
     public int getMsgOrigin() {
         return msgOrigin;
     }
 
+    /**
+     * Validate mac
+     * it's useful method to validate response MAC
+     *
+     * @param isoMacGenerator implementation of {@link ISOMacGenerator}
+     * @return returns true if response message MAC is valid
+     * @throws ISOException throws exception
+     */
     public boolean validateMac(ISOMacGenerator isoMacGenerator) throws ISOException {
 
-        if(!fieldExits(FIELDS.F64_MAC) || getField(FIELDS.F64_MAC).length == 0 )
-        {
-            System.out.println("validate mac : not exists" );
+        if (!fieldExits(FIELDS.F64_MAC) || getField(FIELDS.F64_MAC).length == 0) {
+            System.out.println("validate mac : not exists");
             return false;
         }
         byte[] mBody = new byte[getBody().length - 8];
-        System.arraycopy(getBody(),0,mBody,0,getBody().length - 8);
+        System.arraycopy(getBody(), 0, mBody, 0, getBody().length - 8);
         byte[] oMac = Arrays.copyOf(getField(FIELDS.F64_MAC), 8);
         byte[] vMac = isoMacGenerator.generate(mBody);
 
-        return Arrays.equals(oMac,vMac);
+        return Arrays.equals(oMac, vMac);
     }
 
+    /**
+     * Convert ISOMessage to String
+     * @return ISOMessage in String format
+     */
     public String toString() {
-        if(message == null)
+        if (message == null)
             message = StringUtil.fromByteArray(msg);
         return message;
     }
 
+    /**
+     * Convert all fields in String format
+     * @return returns strings of fields
+     */
     public String fieldsToString() {
-        StringBuilder stringBuilder= new StringBuilder();
+        StringBuilder stringBuilder = new StringBuilder();
 
         stringBuilder.append("\r\n");
-        for (Map.Entry<Integer, byte[]> item:
-             dataElements.entrySet()) {
+        for (Map.Entry<Integer, byte[]> item :
+                dataElements.entrySet()) {
             stringBuilder
                     .append(FIELDS.valueOf(item.getKey()).name())
                     .append(" : ")
@@ -258,6 +371,9 @@ public class ISOMessage {
         return stringBuilder.toString();
     }
 
+    /**
+     * Clean up message
+     */
     public void clear() {
 
         Arrays.fill(header, (byte) 0);

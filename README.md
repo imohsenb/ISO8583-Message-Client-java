@@ -25,7 +25,7 @@ so you can add this dependency to your `pom.xml` like below:
 <dependency>
     <groupId>com.imohsenb</groupId>
     <artifactId>ISO8583</artifactId>
-    <version>1.0.2</version>
+    <version>1.0.4-SNAPSHOT</version>
 </dependency>
 ```
 or direct download from [HERE][ddwn]
@@ -125,5 +125,5 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
    [mvn]: <https://search.maven.org/>
    [mit]: <https://opensource.org/licenses/MIT/>
    [nio]: <https://en.wikipedia.org/wiki/New_I/O_(Java)/>
-   [ddwn]: <https://oss.sonatype.org/content/groups/public/com/imohsenb/ISO8583/1.0.2/ISO8583-1.0.2.jar>
+   [ddwn]: <https://oss.sonatype.org/content/groups/public/com/imohsenb/ISO8583/1.0.4/ISO8583-1.0.4.jar>
 
