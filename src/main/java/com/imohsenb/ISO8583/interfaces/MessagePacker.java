@@ -9,6 +9,8 @@ import com.imohsenb.ISO8583.enums.MESSAGE_ORIGIN;
 public interface MessagePacker<T> {
 
     ProcessCode<T> mti(MESSAGE_FUNCTION mFunction, MESSAGE_ORIGIN mOrigin);
-    MessagePacker<T> setLeftPadding(char character);
-    MessagePacker<T> setRightPadding(char character);
+
+    MessagePacker<T> setLeftPadding(byte character);
+
+    MessagePacker<T> setRightPadding(byte character);
 }

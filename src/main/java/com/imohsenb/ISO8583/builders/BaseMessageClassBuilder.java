@@ -29,7 +29,7 @@ public abstract class BaseMessageClassBuilder<T> implements
     private String processCode;
     private TreeMap<Integer,byte[]> dataElements = new TreeMap<>();
     private String header;
-    private char paddingCharacter = 'F';
+    private byte paddingByte = 0xF;
     private boolean leftPadding = false;
 
     public BaseMessageClassBuilder(String version, String messageClass)
@@ -103,15 +103,7 @@ public abstract class BaseMessageClassBuilder<T> implements
             if(field.getLength()%2 !=0)
             {
                 if(field.getType().equals("n")) {
-                    byte[] fixed = new byte[(int) Math.ceil(field.getLength() / 2) * 2];
-
-                    for (int i = 0; i < fValue.length; i++) {
-                        fixed[i] = (byte) ((fValue[i] & 0x0F) << 4);
-                        if (i + 1 < value.length)
-                            fixed[i] += (fValue[i + 1] & 0xF0) >> 4;
-                    }
-                    fixed[fValue.length - 1] = (byte) (fixed[fValue.length - 1] + 0x0F);
-                    fValue = fixed;
+                    fValue = padding(field, value, fValue);
                 }
             }else if(field.getLength()-(fValue.length*2) > 0 && field.getType().equals("n")){
 
@@ -170,6 +162,34 @@ public abstract class BaseMessageClassBuilder<T> implements
         return this;
     }
 
+    private byte[] padding(FIELDS field, byte[] value, byte[] fValue) {
+        byte[] fixed = new byte[(int) Math.ceil(field.getLength() / 2) * 2];
+
+        if (leftPadding) {
+            leftPad(value, fValue, fixed);
+        } else {
+            rightPad(value, fValue, fixed);
+        }
+        fValue = fixed;
+        return fValue;
+    }
+
+    private void leftPad(byte[] value, byte[] fValue, byte[] fixed) {
+        for (int i = 0; i < fValue.length; i++) {
+            fixed[i] = fValue[i];
+        }
+        fixed[0] = (byte) (fixed[0] + (paddingByte << 4));
+    }
+
+    private void rightPad(byte[] value, byte[] fValue, byte[] fixed) {
+        for (int i = 0; i < fValue.length; i++) {
+            fixed[i] = (byte) ((fValue[i] & 0x0F) << 4);
+            if (i + 1 < value.length)
+                fixed[i] += (fValue[i + 1] & 0xF0) >> 4;
+        }
+        fixed[fValue.length - 1] = (byte) (fixed[fValue.length - 1] + paddingByte);
+    }
+
     public DataElement<T> setField(int no, String value) throws ISOException {
         setField(FIELDS.valueOf(no), value);
         return this;
@@ -210,16 +230,16 @@ public abstract class BaseMessageClassBuilder<T> implements
     }
 
     @Override
-    public MessagePacker<T> setLeftPadding(char character) {
+    public MessagePacker<T> setLeftPadding(byte character) {
         this.leftPadding = true;
-        this.paddingCharacter = character;
+        this.paddingByte = character;
         return this;
     }
 
     @Override
-    public MessagePacker<T> setRightPadding(char character) {
+    public MessagePacker<T> setRightPadding(byte character) {
         this.leftPadding = false;
-        this.paddingCharacter = character;
+        this.paddingByte = character;
         return this;
     }
 
