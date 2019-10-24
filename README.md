@@ -125,5 +125,5 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
    [mvn]: <https://search.maven.org/>
    [mit]: <https://opensource.org/licenses/MIT/>
    [nio]: <https://en.wikipedia.org/wiki/New_I/O_(Java)/>
-   [ddwn]: <https://oss.sonatype.org/content/groups/public/com/imohsenb/ISO8583/1.0.5/ISO8583-1.0.5.jar>
+   [ddwn]: <https://oss.sonatype.org/service/local/repositories/releases/content/com/imohsenb/ISO8583/1.0.5/ISO8583-1.0.5.jar>
 
