@@ -5,6 +5,7 @@ import com.imohsenb.ISO8583.enums.FIELDS;
 import com.imohsenb.ISO8583.enums.MESSAGE_FUNCTION;
 import com.imohsenb.ISO8583.enums.MESSAGE_ORIGIN;
 import com.imohsenb.ISO8583.enums.VERSION;
+import com.imohsenb.ISO8583.exceptions.ISOException;
 import org.junit.Test;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -39,5 +40,30 @@ public class GeneralMessageClassBuilderTest {
                 .build();
         System.out.println(isoMessage.toString());
         assertThat(isoMessage.toString()).isEqualTo("08002020010000000000920000000001333F");
+    }
+
+    @Test
+    public void checkSetHeader() throws ISOException {
+        ISOMessage isoMessage = ISOMessageBuilder.Packer(VERSION.V1987)
+                .networkManagement()
+                .setRightPadding((byte) 0xF)
+                .mti(MESSAGE_FUNCTION.Request, MESSAGE_ORIGIN.Acquirer)
+                .processCode("920000")
+                .setHeader("1002230000")
+                .build();
+        //Then
+        assertThat(isoMessage.toString()).isEqualTo("100223000008002000000000000000920000");
+    }
+
+    @Test
+    public void checkWithoutSetHeader() throws ISOException {
+        ISOMessage isoMessage = ISOMessageBuilder.Packer(VERSION.V1987)
+                .networkManagement()
+                .setRightPadding((byte) 0xF)
+                .mti(MESSAGE_FUNCTION.Request, MESSAGE_ORIGIN.Acquirer)
+                .processCode("920000")
+                .build();
+        //Then
+        assertThat(isoMessage.toString()).isEqualTo("08002000000000000000920000");
     }
 }
