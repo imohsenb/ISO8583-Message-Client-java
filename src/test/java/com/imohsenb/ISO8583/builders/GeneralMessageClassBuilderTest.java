@@ -93,4 +93,48 @@ public class GeneralMessageClassBuilderTest {
         System.out.println(isoMessage.toString());
         assertThat(isoMessage.toString()).isEqualTo("080060000000000000001901234567890123456789920000");
     }
+
+    @Test
+    public void shortPanShouldHaveCorrectHexLengthPrefix() throws Exception {
+        ISOMessage isoMessage = ISOMessageBuilder.Packer(VERSION.V1987)
+                .networkManagement()
+                .setLeftPadding((byte) 0xF)
+                .mti(MESSAGE_FUNCTION.Request, MESSAGE_ORIGIN.Acquirer)
+                .useHexLengthPrefixes()
+                .processCode("920000")
+                .setField(FIELDS.F2_PAN, "12345678")
+                .build();
+        System.out.println(isoMessage.toString());
+        assertThat(isoMessage.toString()).isEqualTo("080060000000000000000812345678920000");
+    }
+
+    @Test
+    public void evenPanShouldHaveCorrectHexLengthPrefix() throws Exception {
+        ISOMessage isoMessage = ISOMessageBuilder.Packer(VERSION.V1987)
+                .networkManagement()
+                .setLeftPadding((byte) 0xF)
+                .mti(MESSAGE_FUNCTION.Request, MESSAGE_ORIGIN.Acquirer)
+                .useHexLengthPrefixes()
+                .processCode("920000")
+                .setField(FIELDS.F2_PAN, "1234567890123456")
+                .build();
+        System.out.println(isoMessage.toString());
+        assertThat(isoMessage.toString()).isEqualTo("08006000000000000000101234567890123456920000");
+    }
+
+    @Test
+    public void OddPanShouldHaveCorrectHexLengthPrefixAndPaddingChar() throws Exception {
+        ISOMessage isoMessage = ISOMessageBuilder.Packer(VERSION.V1987)
+                .networkManagement()
+                .setLeftPadding((byte) 0xF)
+                .mti(MESSAGE_FUNCTION.Request, MESSAGE_ORIGIN.Acquirer)
+                .useHexLengthPrefixes()
+                .processCode("920000")
+                .setField(FIELDS.F2_PAN, "1234567890123456789")
+                .build();
+        System.out.println(isoMessage.toString());
+        assertThat(isoMessage.toString()).isEqualTo("080060000000000000001301234567890123456789920000");
+    }
+    //.useBCDLengthPrefixes()
+
 }

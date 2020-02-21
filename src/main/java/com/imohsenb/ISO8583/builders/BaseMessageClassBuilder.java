@@ -27,6 +27,7 @@ public abstract class BaseMessageClassBuilder<T> implements
     private String messageFunction = "0";
     private String messageOrigin = "0";
     private String processCode;
+    private boolean hexLengthPrefix = false;
     private TreeMap<Integer,byte[]> dataElements = new TreeMap<>();
     private String header;
     private byte paddingByte = 0xF;
@@ -146,10 +147,15 @@ public abstract class BaseMessageClassBuilder<T> implements
             switch (field.getFormat())
             {
                 case "LL":
-                    if(2 - String.valueOf(valueLength).length() <= 0 )
-                        valueBuffer.prepend(StringUtil.hexStringToByteArray(valueLength + ""));
+                    String lengthPrefix =
+                            hexLengthPrefix
+                                    ? Integer.toHexString(valueLength)
+                                    : String.valueOf(valueLength);
+
+                    if (2 - String.valueOf(valueLength).length() <= 0)
+                        valueBuffer.prepend(StringUtil.hexStringToByteArray(lengthPrefix + ""));
                     else
-                        valueBuffer.prepend(StringUtil.hexStringToByteArray(String.format("%" + (2 - String.valueOf(valueLength).length()) + "d%s", 0, valueLength)));
+                        valueBuffer.prepend(StringUtil.hexStringToByteArray(String.format("%" + (2 - lengthPrefix.length()) + "d%s", 0, lengthPrefix)));
                     break;
                 case "LLL":
                     valueBuffer.prepend(StringUtil.hexStringToByteArray(String.format("%0" + (4 - String.valueOf(dLen).length()) + "d%s", 0, dLen)));
@@ -248,7 +254,16 @@ public abstract class BaseMessageClassBuilder<T> implements
         return this;
     }
 
-    //
+    public ProcessCode<T> useHexLengthPrefixes() {
+        hexLengthPrefix = true;
+        return this;
+    }
+
+    public ProcessCode<T> useBCDLengthPrefixes() {
+        hexLengthPrefix = false;
+        return this;
+    }
+
     public DataElement<T> processCode(String code) throws ISOException {
         this.processCode = code;
         this.setField(FIELDS.F3_ProcessCode,this.processCode);

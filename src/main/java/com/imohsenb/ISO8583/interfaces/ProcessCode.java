@@ -9,6 +9,9 @@ import com.imohsenb.ISO8583.exceptions.ISOException;
  * @author Mohsen Beiranvand
  */
 public interface ProcessCode<T> {
+    ProcessCode<T> useHexLengthPrefixes();
+    ProcessCode<T> useBCDLengthPrefixes();
+
     DataElement<T> processCode(String code) throws ISOException;
     DataElement<T> processCode(PC_TTC_100 ttc) throws ISOException;
     DataElement<T> processCode(PC_TTC_100 ttc, PC_ATC atcFrom, PC_ATC atcTo) throws ISOException;
