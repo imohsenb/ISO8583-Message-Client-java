@@ -66,4 +66,31 @@ public class GeneralMessageClassBuilderTest {
         //Then
         assertThat(isoMessage.toString()).isEqualTo("08002000000000000000920000");
     }
+
+
+    @Test
+    public void evenPanShouldHaveCorrectLengthPrefix() throws Exception {
+        ISOMessage isoMessage = ISOMessageBuilder.Packer(VERSION.V1987)
+                .networkManagement()
+                .setLeftPadding((byte) 0xF)
+                .mti(MESSAGE_FUNCTION.Request, MESSAGE_ORIGIN.Acquirer)
+                .processCode("920000")
+                .setField(FIELDS.F2_PAN, "1234567890123456")
+                .build();
+        System.out.println(isoMessage.toString());
+        assertThat(isoMessage.toString()).isEqualTo("08006000000000000000161234567890123456920000");
+    }
+
+    @Test
+    public void OddPanShouldHaveCorrectLengthPrefixAndPaddingChar() throws Exception {
+        ISOMessage isoMessage = ISOMessageBuilder.Packer(VERSION.V1987)
+                .networkManagement()
+                .setLeftPadding((byte) 0xF)
+                .mti(MESSAGE_FUNCTION.Request, MESSAGE_ORIGIN.Acquirer)
+                .processCode("920000")
+                .setField(FIELDS.F2_PAN, "1234567890123456789")
+                .build();
+        System.out.println(isoMessage.toString());
+        assertThat(isoMessage.toString()).isEqualTo("080060000000000000001901234567890123456789920000");
+    }
 }
