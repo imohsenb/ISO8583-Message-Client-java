@@ -42,7 +42,7 @@ public abstract class BaseMessageClassBuilder<T> implements
     public ISOMessage build() throws ISOException {
 
         ISOMessage finalMessage = new ISOMessage();
-        finalMessage.setMessage(buildBuffer(true),this.header != null);
+        finalMessage.setMessage(buildBuffer(true),this.header != null, hexLengthPrefix);
 
         //clear();
 
@@ -208,6 +208,7 @@ public abstract class BaseMessageClassBuilder<T> implements
     public DataElement<T> setField(FIELDS field, String value) throws ISOException {
         switch (field.getType())
         {
+            case "a|n":
             case "n":
                 setField(field,StringUtil.hexStringToByteArray(value),value.length());
                 break;

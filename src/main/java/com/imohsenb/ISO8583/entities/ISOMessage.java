@@ -152,6 +152,20 @@ public class ISOMessage {
      * @throws ISOException throws exception
      */
     public ISOMessage setMessage(byte[] message, boolean headerAvailable) throws ISOException {
+        return setMessage(message, headerAvailable, false);
+    }
+
+    /**
+     * Set and parse ISO8583 message from buffer
+     *
+     * @param message         ISO8583 in byte array format
+     * @param headerAvailable set true if header is available in buffer
+     * @param hexLengthPrefixes set true if LL length prefixes are in Hex, leave false if they're BCD
+     *                        hexLengthPrefixes
+     * @return returns ISO8583 message in ISOMessage type
+     * @throws ISOException throws exception
+     */
+    public ISOMessage setMessage(byte[] message, boolean headerAvailable, boolean hexLengthPrefixes) throws ISOException {
 
         isNil = false;
 
@@ -171,7 +185,7 @@ public class ISOMessage {
             this.primaryBitmap = Arrays.copyOfRange(body, 2, 10);
 
             parseHeader();
-            parseBody();
+            parseBody(hexLengthPrefixes);
 
         } catch (Exception e) {
             throw new ISOException(e.getMessage(), e.getCause());
@@ -200,7 +214,7 @@ public class ISOMessage {
         }
     }
 
-    private void parseBody() {
+    private void parseBody(boolean hexLengthPrefixes) {
         FixedBitSet pb = new FixedBitSet(64);
         pb.fromHexString(StringUtil.fromByteArray(primaryBitmap));
         int offset = 10;
@@ -235,13 +249,16 @@ public class ISOMessage {
                         break;
                 }
 
-                int flen = Integer.valueOf(
-                        StringUtil.fromByteArray(Arrays.copyOfRange(body, offset, offset + formatLength)));
+                String lengthText = StringUtil.fromByteArray(Arrays.copyOfRange(body, offset, offset + formatLength));
+
+                int flen = hexLengthPrefixes
+                        ? Integer.parseInt(lengthText,16)
+                        : Integer.parseInt(lengthText);
 
                 switch (field.getType()) {
                     case "z":
                     case "n":
-                        flen /= 2;
+                        flen = flen / 2 + flen % 2;
                 }
 
                 offset = offset + formatLength;
