@@ -241,7 +241,7 @@ public class ISOMessage {
                 switch (field.getType()) {
                     case "z":
                     case "n":
-                        flen /= 2;
+                        flen = flen / 2 + flen % 2;
                 }
 
                 offset = offset + formatLength;
