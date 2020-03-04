@@ -8,7 +8,7 @@ import java.util.Map;
  */
 public enum FIELDS {
 // |Field title                        |no  |type  |len  |fixed |format|
-    F1_Bitmap                           (1,  "b",   64,   true,  null),
+    F1_Bitmap                           (1,  "b",   8,    true,  null),
     F2_PAN                              (2,  "n",   19,   false, "LL"),
     F3_ProcessCode                      (3,  "n",   6,    true,  null),
     F4_AmountTransaction                (4,  "n",   12,   true,  null),
@@ -71,7 +71,8 @@ public enum FIELDS {
     F61_Reserved_Private                (61, "ans", 999,  false, "LLL"),
     F62_Reserved_Private                (62, "ans", 999,  false, "LLL"),
     F63_Reserved_Private                (63, "ans", 999,  false, "LLL"),
-    F64_MAC                             (64, "b",   16,   true,  null);
+    F64_MAC                             (64, "b",   16,   true,  null),
+    F70_Network_Management_Code         (70, "n",    3,   true,  null);
 
 
 

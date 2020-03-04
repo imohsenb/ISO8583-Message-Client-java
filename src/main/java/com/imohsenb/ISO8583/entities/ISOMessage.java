@@ -201,13 +201,22 @@ public class ISOMessage {
     }
 
     private void parseBody() {
-        FixedBitSet pb = new FixedBitSet(64);
-        pb.fromHexString(StringUtil.fromByteArray(primaryBitmap));
-        int offset = 10;
+        FixedBitSet primaryBitmap = new FixedBitSet(64);
+        primaryBitmap.fromHexString(StringUtil.fromByteArray(this.primaryBitmap));
+        int byteOffset = 10;
 
-        for (int o : pb.getIndexes()) {
+        byteOffset = readFields(primaryBitmap, byteOffset, 0);
 
-            FIELDS field = FIELDS.valueOf(o);
+        byte [] secondaryBitmapBytes = getField(FIELDS.F1_Bitmap);
+        if(secondaryBitmapBytes != null) {
+            FixedBitSet secondaryBitmap = new FixedBitSet(64).fromHexString(StringUtil.fromByteArray(secondaryBitmapBytes));
+            readFields(secondaryBitmap, byteOffset, 64);
+        }
+    }
+
+    private int readFields(FixedBitSet bitmap, int byteOffset, int fieldOffset) {
+        for (int fieldIndex : bitmap.getIndexes()) {
+            FIELDS field = FIELDS.valueOf(fieldIndex+fieldOffset);
 
             if (field.isFixed()) {
                 int len = field.getLength();
@@ -216,15 +225,14 @@ public class ISOMessage {
                         if (len % 2 != 0)
                             len++;
                         len = len / 2;
-                        addElement(field, Arrays.copyOfRange(body, offset, offset + len));
+                        addElement(field, Arrays.copyOfRange(body, byteOffset, byteOffset + len));
                         break;
                     default:
-                        addElement(field, Arrays.copyOfRange(body, offset, offset + len));
+                        addElement(field, Arrays.copyOfRange(body, byteOffset, byteOffset + len));
                         break;
                 }
-                offset += len;
+                byteOffset += len;
             } else {
-
                 int formatLength = 1;
                 switch (field.getFormat()) {
                     case "LL":
@@ -236,7 +244,7 @@ public class ISOMessage {
                 }
 
                 int flen = Integer.valueOf(
-                        StringUtil.fromByteArray(Arrays.copyOfRange(body, offset, offset + formatLength)));
+                        StringUtil.fromByteArray(Arrays.copyOfRange(body, byteOffset, byteOffset + formatLength)));
 
                 switch (field.getType()) {
                     case "z":
@@ -244,14 +252,14 @@ public class ISOMessage {
                         flen = flen / 2 + flen % 2;
                 }
 
-                offset = offset + formatLength;
+                byteOffset = byteOffset + formatLength;
 
-                addElement(field, Arrays.copyOfRange(body, offset, offset + flen));
+                addElement(field, Arrays.copyOfRange(body, byteOffset, byteOffset + flen));
 
-                offset += flen;
+                byteOffset += flen;
             }
-
         }
+        return byteOffset;
     }
 
     private void addElement(FIELDS field, byte[] data) {

@@ -41,7 +41,7 @@ public abstract class BaseMessageClassBuilder<T> implements
     public ISOMessage build() throws ISOException {
 
         ISOMessage finalMessage = new ISOMessage();
-        finalMessage.setMessage(buildBuffer(true),this.header != null);
+        finalMessage.setMessage(buildBuffer(),this.header != null);
 
         //clear();
 
@@ -56,23 +56,33 @@ public abstract class BaseMessageClassBuilder<T> implements
         dataElements = new TreeMap<>();
     }
 
-    private byte[] buildBuffer(boolean generateBitmap)
-    {
+    private byte[] buildBuffer() throws ISOException {
         FixedBitSet primaryBitmap = new FixedBitSet(64);
+        FixedBitSet secondaryBitmap = new FixedBitSet(64);
         ByteArray dataBuffer = new ByteArray();
 
         for(Map.Entry<Integer, byte[]> elem :  dataElements.entrySet()) {
-            if(generateBitmap)
+            if(elem.getKey()>64) {
+                secondaryBitmap.flip(elem.getKey() - 65);
+
+                setField(FIELDS.F1_Bitmap, StringUtil.hexStringToByteArray(secondaryBitmap.toHexString()));
+            }
+        }
+
+        for(Map.Entry<Integer, byte[]> elem :  dataElements.entrySet()) {
+            if(elem.getKey()<=64)
                 primaryBitmap.flip(elem.getKey() - 1);
+        }
+
+        for(Map.Entry<Integer, byte[]> elem :  dataElements.entrySet()) {
             dataBuffer.append(elem.getValue());
         }
 
-        if(generateBitmap)
-            dataBuffer.prepend(StringUtil.hexStringToByteArray(primaryBitmap.toHexString()));
+        dataBuffer.prepend(StringUtil.hexStringToByteArray(primaryBitmap.toHexString()));
 
         dataBuffer.prepend(StringUtil.hexStringToByteArray((version + messageClass + messageFunction + messageOrigin)));
 
-        if(header!=null && generateBitmap)
+        if(header!=null)
             dataBuffer.prepend(StringUtil.hexStringToByteArray(header));
 
         return dataBuffer.array();
@@ -202,6 +212,7 @@ public abstract class BaseMessageClassBuilder<T> implements
     public DataElement<T> setField(FIELDS field, String value) throws ISOException {
         switch (field.getType())
         {
+            case "a|n":
             case "n":
                 setField(field,StringUtil.hexStringToByteArray(value),value.length());
                 break;
@@ -218,7 +229,7 @@ public abstract class BaseMessageClassBuilder<T> implements
 
         if(generator != null)
         {
-            byte[] mac = generator.generate(buildBuffer(true));
+            byte[] mac = generator.generate(buildBuffer());
             if(mac != null)
                 setField(FIELDS.F64_MAC,mac);
             else

@@ -24,4 +24,12 @@ public class ISOMessageParseTest {
 
         assertThat(isoMessage.getField(FIELDS.F2_PAN)).isEqualTo(StringUtil.hexStringToByteArray("01234567890123456789"));
     }
+
+    @Test
+    public void anExtendedFieldIsReadCorrectly() throws ISOException {
+        ISOMessage isoMessage = new ISOMessage();
+        isoMessage.setMessage(StringUtil.hexStringToByteArray("0800A00000000000000004000000000000001234560310"), false);
+
+        assertThat(isoMessage.getField(FIELDS.F70_Network_Management_Code)).isEqualTo(StringUtil.hexStringToByteArray("0310"));
+    }
 }

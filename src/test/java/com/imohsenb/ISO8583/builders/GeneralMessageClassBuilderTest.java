@@ -6,6 +6,7 @@ import com.imohsenb.ISO8583.enums.MESSAGE_FUNCTION;
 import com.imohsenb.ISO8583.enums.MESSAGE_ORIGIN;
 import com.imohsenb.ISO8583.enums.VERSION;
 import com.imohsenb.ISO8583.exceptions.ISOException;
+import com.imohsenb.ISO8583.utils.StringUtil;
 import org.junit.Test;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -93,4 +94,18 @@ public class GeneralMessageClassBuilderTest {
         System.out.println(isoMessage.toString());
         assertThat(isoMessage.toString()).isEqualTo("080060000000000000001901234567890123456789920000");
     }
+
+    @Test
+    public void AMessageWithASecondaryBitmapIsFormattedCorrectly() throws ISOException {
+        ISOMessage isoMessage = ISOMessageBuilder.Packer(VERSION.V1987)
+                .networkManagement()
+                .setLeftPadding((byte) 0x0)
+                .mti(MESSAGE_FUNCTION.Request, MESSAGE_ORIGIN.Acquirer)
+                .processCode("123456")
+                .setField(FIELDS.F70_Network_Management_Code, "310")
+                .build();
+        System.out.println(isoMessage.toString());
+        assertThat(isoMessage.toString()).isEqualTo("0800A00000000000000004000000000000001234560310");
+    }
 }
+
