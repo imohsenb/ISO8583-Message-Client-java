@@ -240,6 +240,7 @@ public class ISOMessage {
 
                 switch (field.getType()) {
                     case "z":
+                    case "n":
                         flen /= 2;
                 }
 

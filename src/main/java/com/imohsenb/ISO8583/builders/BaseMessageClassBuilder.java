@@ -92,6 +92,10 @@ public abstract class BaseMessageClassBuilder<T> implements
 
     @Override
     public DataElement<T> setField(FIELDS field, byte[] value) throws ISOException {
+        return setField(field,value,value.length);
+    }
+
+    public DataElement<T> setField(FIELDS field, byte[] value, int valueLength) throws ISOException {
 
         byte[] fValue = value;
 
@@ -142,10 +146,10 @@ public abstract class BaseMessageClassBuilder<T> implements
             switch (field.getFormat())
             {
                 case "LL":
-                    if(2 - String.valueOf(dLen).length() <= 0 )
-                        valueBuffer.prepend(StringUtil.hexStringToByteArray(dLen + ""));
+                    if(2 - String.valueOf(valueLength).length() <= 0 )
+                        valueBuffer.prepend(StringUtil.hexStringToByteArray(valueLength + ""));
                     else
-                        valueBuffer.prepend(StringUtil.hexStringToByteArray(String.format("%" + (2 - String.valueOf(dLen).length()) + "d%s", 0, dLen)));
+                        valueBuffer.prepend(StringUtil.hexStringToByteArray(String.format("%" + (2 - String.valueOf(valueLength).length()) + "d%s", 0, valueLength)));
                     break;
                 case "LLL":
                     valueBuffer.prepend(StringUtil.hexStringToByteArray(String.format("%0" + (4 - String.valueOf(dLen).length()) + "d%s", 0, dLen)));
@@ -199,10 +203,11 @@ public abstract class BaseMessageClassBuilder<T> implements
         switch (field.getType())
         {
             case "n":
-                setField(field,StringUtil.hexStringToByteArray(value));
+                setField(field,StringUtil.hexStringToByteArray(value),value.length());
                 break;
             default:
-                setField(field,value.getBytes());
+                byte[] bytes = value.getBytes();
+                setField(field,bytes,bytes.length);
         }
 
         return this;
