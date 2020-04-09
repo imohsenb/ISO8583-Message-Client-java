@@ -95,12 +95,24 @@ public class GeneralMessageClassBuilderTest {
     }
 
     @Test
+    public void checkTrack2Field() throws ISOException {
+        ISOMessage isoMessage = ISOMessageBuilder.Packer(VERSION.V1987)
+                .financial()
+                .mti(MESSAGE_FUNCTION.Request, MESSAGE_ORIGIN.Acquirer)
+                .processCode("920000")
+                .setField(FIELDS.F35_Track2, "1234560100004865=2012111176000060FFFF")
+                .build();
+        System.out.println(isoMessage.toString());
+        assertThat(isoMessage.toString()).isEqualTo("0200200000002000000092000037313233343536303130303030343836353D3230313231313131373630303030363046464646");
+    }
+
+    @Test
     public void shortPanShouldHaveCorrectHexLengthPrefix() throws Exception {
         ISOMessage isoMessage = ISOMessageBuilder.Packer(VERSION.V1987)
                 .networkManagement()
                 .setLeftPadding((byte) 0xF)
-                .mti(MESSAGE_FUNCTION.Request, MESSAGE_ORIGIN.Acquirer)
                 .useHexLengthPrefixes()
+                .mti(MESSAGE_FUNCTION.Request, MESSAGE_ORIGIN.Acquirer)
                 .processCode("920000")
                 .setField(FIELDS.F2_PAN, "12345678")
                 .build();
@@ -113,8 +125,8 @@ public class GeneralMessageClassBuilderTest {
         ISOMessage isoMessage = ISOMessageBuilder.Packer(VERSION.V1987)
                 .networkManagement()
                 .setLeftPadding((byte) 0xF)
-                .mti(MESSAGE_FUNCTION.Request, MESSAGE_ORIGIN.Acquirer)
                 .useHexLengthPrefixes()
+                .mti(MESSAGE_FUNCTION.Request, MESSAGE_ORIGIN.Acquirer)
                 .processCode("920000")
                 .setField(FIELDS.F2_PAN, "1234567890123456")
                 .build();
@@ -127,8 +139,8 @@ public class GeneralMessageClassBuilderTest {
         ISOMessage isoMessage = ISOMessageBuilder.Packer(VERSION.V1987)
                 .networkManagement()
                 .setLeftPadding((byte) 0xF)
-                .mti(MESSAGE_FUNCTION.Request, MESSAGE_ORIGIN.Acquirer)
                 .useHexLengthPrefixes()
+                .mti(MESSAGE_FUNCTION.Request, MESSAGE_ORIGIN.Acquirer)
                 .processCode("920000")
                 .setField(FIELDS.F2_PAN, "1234567890123456789")
                 .build();

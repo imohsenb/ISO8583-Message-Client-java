@@ -10,7 +10,13 @@ public interface MessagePacker<T> {
 
     ProcessCode<T> mti(MESSAGE_FUNCTION mFunction, MESSAGE_ORIGIN mOrigin);
 
+    //region SettingMethods
     MessagePacker<T> setLeftPadding(byte character);
 
     MessagePacker<T> setRightPadding(byte character);
+
+    MessagePacker<T> useHexLengthPrefixes();
+
+    MessagePacker<T> useBCDLengthPrefixes();
+    //endregion
 }

@@ -255,12 +255,12 @@ public abstract class BaseMessageClassBuilder<T> implements
         return this;
     }
 
-    public ProcessCode<T> useHexLengthPrefixes() {
+    public MessagePacker<T> useHexLengthPrefixes() {
         hexLengthPrefix = true;
         return this;
     }
 
-    public ProcessCode<T> useBCDLengthPrefixes() {
+    public MessagePacker<T> useBCDLengthPrefixes() {
         hexLengthPrefix = false;
         return this;
     }
