@@ -5,7 +5,7 @@
 ###### (Supporting SSL/TLS)
 
 
-A lightweight ISO8583 (is an international standard for financial transaction card originated interchange messaging - [wikipedia][iso8583-Wiki] ) library for Java and Android base on builder pattern and provide very simple use as you will see later.
+A lightweight ISO8583 (is an international standard for financial transaction card originated interchange messaging - [wikipedia][https://en.wikipedia.org/wiki/ISO_8583] ) library for Java and Android base on builder pattern and provide very simple use as you will see later.
 
   - Supporting Blocking IO and Non-blocking IO (NIO)
   - Supporting SSL/TLS
