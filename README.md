@@ -1,6 +1,6 @@
 # ISO-8583 Java Lib
 
-#### ISO8583 Message Packer and Unpakcer with ISOClient for communication with iso server 
+#### ISO8583 Message Packer and Unpacker with ISOClient for communication with iso server 
 ###### (Supporting both Blocking IO and NIO)
 ###### (Supporting SSL/TLS)
 
